@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+
+import optparse
+import os
+import shutil
+import datetime 
+
+root_dir = os.path.dirname(__file__)
+
+parser = optparse.OptionParser()
+dummy_value = "dummy"
+
+parser.add_option("--prefix",
+  dest="prefix",
+  default=root_dir + "/tmp",
+  help="")
+parser.add_option("--pkg-key",
+  dest="pkg_key",
+  default=dummy_value,
+  help="Package key of package you want to generate applet and portlet for! (i.e. tasks) "
+  )
+
+parser.add_option("--author",
+  dest="author",
+  default=dummy_value,
+  help="First and Last names of the author")
+
+parser.add_option("--pkg-name",
+  dest="pkg_prettyName",
+  default=dummy_value,
+  help="Pretty nae of the package (i.e. Task)")
+
+parser.add_option("--pkg-plural",
+  dest="pkg_plural",
+  default=dummy_value,
+  help="Plural form of package name (i.e. Tasks)")
+
+(options, args) = parser.parse_args()
+
+if not os.path.exists(options.prefix):
+  os.makedirs(options.prefix)
+
+applet_dest = options.prefix + "/dotlrn-" + options.pkg_key
+portlet_dest = options.prefix + "/" + options.pkg_key + "-portlet"
+
+if os.path.exists(applet_dest):
+  shutil.rmtree(applet_dest)
+shutil.copytree(root_dir + "/applet", applet_dest)
+
+if os.path.exists(portlet_dest):
+  shutil.rmtree(portlet_dest)
+shutil.copytree(root_dir + "/portlet", portlet_dest)
+
+# renaming info files: 
+os.rename(applet_dest + "/applet.info", applet_dest + "/dotlrn-" + options.pkg_key + ".info")
+os.rename(portlet_dest + "/portlet.info", portlet_dest + "/" + options.pkg_key + "-portlet.info" )
+
+list_dirs = [ applet_dest, portlet_dest ]
+creation_date = str(datetime.date.today())
+
+for working_dir in list_dirs: 
+  print "Genearting " + working_dir
+  for r, d, f in os.walk(working_dir):
+      for file in f: 
+        path = os.path.join(r, file)
+        tmp_path = path + ".tmp"
+        new_file =  open(tmp_path, 'w')
+        old_file = open(path)
+        for line in old_file:
+          # we replace all keys 
+          line = line.replace('__pkg_key__', options.pkg_key)
+          line = line.replace('__pkg_prettyName__', options.pkg_prettyName)
+          line = line.replace('__pkg_pluralName__', options.pkg_plural)
+          line = line.replace('__creation_date__', creation_date)
+          line = line.replace('__author_name__', options.author)
+          new_file.write(line)
+        new_file.close()
+        old_file.close()
+        os.remove(path)
+        os.rename(tmp_path, path)
+
+
+# for filename in os.listdir(applet_dest):
+#   print "under : " + applet_dest + " we have " + filename
+
