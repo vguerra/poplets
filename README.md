@@ -21,7 +21,11 @@ Poplet is a dead-simple script written in python that will take a couple of argu
 
 For example, lets assume we have a package named tasks ( with package key : tasks), then we only need to run 
 
-./poplet --pkg-key=task --author="Victor Guerra" --pkg-name="Task" --pkg-plural="Tasks"
+```bash
+$> ./poplet --pkg-key=task --author="Victor Guerra" --pkg-name="Task" --pkg-plural="Tasks"
+```
 
 To have closer look at the available options: 
-./poplet --help
+```bash
+$> ./poplet --help
+```
