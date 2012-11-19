@@ -14,7 +14,7 @@
 
         <provides url="dotlrn-__pkg_key__" version="1.0"/>
         <requires url="dotlrn" version="2.2.1"/>
-        <requires url="__pkg_key__-portlet" version="2.0"/>
+        <requires url="__pkg_key__-portlet" version="1.0"/>
 
         <callbacks>
             <callback type="after-install"  proc="__pkg_key___applet::after-install"/>

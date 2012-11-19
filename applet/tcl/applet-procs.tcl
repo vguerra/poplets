@@ -8,7 +8,7 @@ ad_library {
 # This has been generated with an applet template
 # based on the xowiki applet. 
 
-Object __pkg_key___applet
+::xotcl::Object create __pkg_key___applet
 __pkg_key___applet proc applet_key {} {
   return "dotlrn___pkg_key__"
 }
@@ -126,7 +126,7 @@ __pkg_key___applet ad_proc add_user_to_community {
   Add a user to a specifc dotlrn community
 } {
   # nothing happens here
-  set package_id [dotlrn_community::get_applet_package_id -community_id $community_id -applet_key [applet_key]]
+  set package_id [dotlrn_community::get_applet_package_id -community_id $community_id -applet_key [my applet_key]]
   set portal_id [dotlrn::get_portal_id -user_id $user_id]
   __pkg_key___portlet add_self_to_page \
       -portal_id $portal_id \
@@ -140,7 +140,7 @@ __pkg_key___applet ad_proc remove_user_from_community {
   Remove a user from a community
 } {
 
-  set package_id [dotlrn_community::get_applet_package_id -community_id $community_id -applet_key [applet_key]]
+  set package_id [dotlrn_community::get_applet_package_id -community_id $community_id -applet_key [my applet_key]]
   set portal_id [dotlrn::get_portal_id -user_id $user_id]
   __pkg_key___portlet remove_self_from_page \
       -portal_id $portal_id \
