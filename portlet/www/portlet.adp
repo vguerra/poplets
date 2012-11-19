@@ -1,2 +1,1 @@
-<include src="/packages/xowiki/lib/view" url="@url@" template_file="view-links">
-
+This is the <b>__pkg_prettyName__ portlet</b>

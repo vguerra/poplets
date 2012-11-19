@@ -1,2 +1,3 @@
+# This array contains relevant configuration                                                                                                                                                                       
 array set config $cf
-regsub {/[^/]+$} [ad_conn url] "/xowiki/$config(page_name)" url
+::xotcl::Object log "config has: $cf"
