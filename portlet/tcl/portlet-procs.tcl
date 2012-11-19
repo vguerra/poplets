@@ -8,13 +8,13 @@ ad_library {
 # This has been generated with a portlet 
 # applet template based on the xowiki portlet code.
 
-Object __pkg_key___portlet
+::xotcl::Object create __pkg_key___portlet
 __pkg_key___portlet proc name {} {
-  return "__pkg_key__-portlet"
+  return "__pkg_key___portlet"
 }
 
 __pkg_key___portlet proc pretty_name {} {
-  return ""
+  return "__pkg_prettyName__"
 }
 
 __pkg_key___portlet proc package_key {} {
@@ -69,9 +69,16 @@ __pkg_key___portlet proc install {} {
   # create the datasource
   #
   db_transaction {
-    set ds_id [::xo::db::sql::portal_datasource new -name $name \
-                   -css_dir "" \
-                   -description "Displays a __pkg_key__ portlet"]
+    set css_dir ""
+    set description "Displays a __pkg_key__ portlet"
+
+    set ds_id [db_exec_plsql create_datasource {
+      select portal_datasource__new(
+        :name,
+        :description,
+        :css_dir
+        )
+      }]
     
     # default configuration
     ::xo::db::sql::portal_datasource set_def_param -datasource_id $ds_id \

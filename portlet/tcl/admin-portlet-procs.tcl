@@ -6,13 +6,13 @@ ad_library {
 }
 
 
-Object __pkg_key___admin_portlet
+::xotcl::Object create __pkg_key___admin_portlet
 __pkg_key___admin_portlet proc name {} {
-  return "__pkg_key__-admin-portlet"
+  return "__pkg_key___admin_portlet"
 }
 
 __pkg_key___admin_portlet proc pretty_name {} {
-  return "__pkg__prettyName"
+  return "__pkg_prettyName__"
 }
 
 __pkg_key___admin_portlet proc package_key {} {
@@ -68,12 +68,17 @@ __pkg_key___admin_portlet proc install {} {
     #
     # create the datasource
     #
-    set ds_id [::xo::db::sql::portal_datasource new -name $name \
-                   -css_dir "" \
-                   -description "Displays the admin interface for the xowiki data portlets"]
+    set css_dir ""
+    set description "Displays an admin __pkg_key__ portlet"
+    set ds_id [db_exec_plsql create_datasource {
+        select portal_datasource__new(
+                                      :name,
+                                      :description,
+                                      :css_dir
+                                      )
+    }]
     
     # default configuration
-    
     ::xo::db::sql::portal_datasource set_def_param -datasource_id $ds_id \
         -config_required_p t -configured_p t \
         -key "shadeable_p" -value f
